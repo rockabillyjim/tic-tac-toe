@@ -8,11 +8,26 @@ namespace TicTacToeLib
     {
         private Random _rand = new Random();
         
+        /// <summary>
+        /// The current status of the game: InProgress, Draw, WinX or WinO.
+        /// </summary>
         public GameStatus Status { get; private set; }
+        /// <summary>
+        /// Indicates whose turn it is to play next.
+        /// </summary>
         public Player NextPlayer { get; private set; }
+        /// <summary>
+        /// Indicates how many turns have been played.
+        /// </summary>
         public int Turn { get; private set; }
+        /// <summary>
+        /// Returns a List of Square objects that make up the board of play. 
+        /// </summary>
         public List<Square> Board { get; private set; }
 
+        /// <summary>
+        /// Returns a List of Square objects that represent the Squares that can be played. 
+        /// </summary>
         public List<Square> AvailableSquares
         {
             get => Board.Where(x => x.Value == null).ToList();
@@ -33,22 +48,32 @@ namespace TicTacToeLib
             NewGame();
         }
         
-        public void Move()
+        /// <summary>
+        /// Makes a randomly generated move for the player whose turn is next.
+        /// </summary>
+        public void ComputerRandomMove()
         {
-            Move(NextPlayer);
+            ComputerRandomMove(NextPlayer);
         }
         
-        public void Move(Player Player)
+        /// <summary>
+        /// Makes a randomly generated move for the supplied Player.
+        /// </summary>
+        public void ComputerRandomMove(Player Player)
         {
             var index = _rand.Next(AvailableSquares.Count);
             var square = AvailableSquares[index];
             Move(Player, square);
         }
         
+        /// <summary>
+        /// Attempts to play the supplied Square for the supplied Player. Throws an exception if the Square has aready been played
+        /// or it's not the Player's turn.
+        /// </summary>
         public void Move(Player Player, Square Square)
         {
             if (!AvailableSquares.Contains(Square))
-                throw new ArgumentOutOfRangeException("Square already played.");
+                throw new ArgumentOutOfRangeException("Square {Square.Location} has already been played.");
                 
             if (NextPlayer != Player)
                 throw new Exception($"It is not Player {Player}'s turn.");
@@ -60,12 +85,20 @@ namespace TicTacToeLib
             UpdateStatus();
         }
         
+        /// <summary>
+        /// Attempts to play the supplied Square for the supplied Player. Throws an exception if the Square has aready been played
+        /// or it's not the Player's turn.
+        /// </summary>
         public void Move(Player Player, int Row, int Column)
         {
             var square = Board.Where(x => x.Row == (Row)Row && x.Column == (Column)Column).SingleOrDefault();
             Move(Player, square);
         }
         
+        /// <summary>
+        /// Attempts to play the supplied Square for the supplied Player. Throws an exception if the Square has aready been played
+        /// or it's not the Player's turn.
+        /// </summary>
         public void Move(Player Player, Row Row, Column Column)
         {
             var square = Board.Where(x => x.Row == Row && x.Column == Column).SingleOrDefault();
@@ -80,6 +113,7 @@ namespace TicTacToeLib
             
             Board = new List<Square>();
             
+            // Initialise the board
             for (int row = 1; row < 4; row++)
             {
                 for (int column = 1; column < 4; column++)
@@ -89,7 +123,7 @@ namespace TicTacToeLib
             }
         }
         
-        public void UpdateStatus()
+        private void UpdateStatus()
         {
             var rowWinner = RowWinner();
             var columnWinner = ColumnWinner();
