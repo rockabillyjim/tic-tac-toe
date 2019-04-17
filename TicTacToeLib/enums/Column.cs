@@ -4,8 +4,8 @@ namespace TicTacToeLib
 {
     public enum Column
     {
-        Left,
-        Middle,
-        Right
+        Left = 1,
+        Middle = 2,
+        Right = 3
     }
 }

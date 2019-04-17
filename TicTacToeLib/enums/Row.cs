@@ -4,8 +4,8 @@ namespace TicTacToeLib
 {
     public enum Row
     {
-        Top,
-        Middle,
-        Bottom
+        Top = 1,
+        Middle = 2,
+        Bottom = 3
     }
 }
