@@ -4,7 +4,7 @@ trigger:
 - master
 
 jobs:
-- job: Build and Test
+- job: Build_and_Test
   pool:
     vmImage: 'windows-2019'
   steps:
