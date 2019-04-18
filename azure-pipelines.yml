@@ -4,7 +4,7 @@ trigger:
 - master
 
 jobs:
-- job: Build
+- job: Build & Test
   pool:
     vmImage: 'windows-2019'
   steps:
@@ -12,11 +12,6 @@ jobs:
     inputs:
       command: 'build'
       projects: '**/*.sln'
-
-- job: Test
-  pool:
-    vmImage: 'windows-2019'
-  steps:
   - task: VSTest@2
     inputs:
       testSelector: 'testAssemblies'
